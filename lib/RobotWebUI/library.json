@@ -1,0 +1,13 @@
+{
+  "name": "RobotWebUI",
+  "version": "0.1.0",
+  "description": "Framework-agnostic robot web dashboard for ESP8266/ESP32",
+  "keywords": ["robot", "dashboard", "websocket", "esp8266"],
+  "frameworks": ["arduino"],
+  "platforms": ["espressif8266", "espressif32"],
+  "dependencies": {
+    "ESP32Async/ESPAsyncWebServer": "^3.10.3",
+    "ESP32Async/ESPAsyncTCP": "^2.0.0",
+    "bblanchon/ArduinoJson": "^7.4.3"
+  }
+}

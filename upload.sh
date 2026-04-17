@@ -1,0 +1,1 @@
+pio run -t upload -e esp12e && pio device monitor -b 115200

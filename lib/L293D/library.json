@@ -1,0 +1,7 @@
+{
+  "name": "L293D",
+  "version": "0.1.0",
+  "description": "L293D dual H-bridge motor driver library for ESP8266/ESP32",
+  "frameworks": "arduino",
+  "platforms": ["espressif8266", "espressif32"]
+}
