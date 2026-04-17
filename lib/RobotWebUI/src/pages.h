@@ -43,7 +43,7 @@ body{font-family:var(--font-stack);background:var(--bg);color:var(--text);min-he
 .divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
 .estop-btn{width:100%;height:48px;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-btn);font-size:0.85rem;font-weight:700;cursor:pointer;transition:transform var(--transition-fast);margin-bottom:1rem}
 .estop-btn:active{transform:scale(0.96);background:#b91c1c}
-.dpad{display:grid;grid-template-areas:". up ." "left center right" ". down .";grid-template-columns:repeat(3,48px);grid-template-rows:repeat(3,48px);gap:4px;justify-content:center;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin:0 auto}
+.dpad{display:grid;grid-template-areas:". up ." "left center right" ". down .";grid-template-columns:repeat(3,72px);grid-template-rows:repeat(3,72px);gap:4px;justify-content:center;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin:0 auto}
 .dpad-up{grid-area:up}.dpad-left{grid-area:left}.dpad-center{grid-area:center}.dpad-right{grid-area:right}.dpad-down{grid-area:down}
 .dpad button{background:var(--btn-bg);color:var(--text);border:none;border-radius:var(--radius-btn);font-size:1.2rem;cursor:pointer;transition:transform var(--transition-fast),background var(--transition-normal);display:flex;align-items:center;justify-content:center}
 .dpad button:active{transform:scale(0.96);background:var(--accent)}
