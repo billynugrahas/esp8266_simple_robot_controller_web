@@ -53,6 +53,10 @@ body{font-family:var(--font-stack);background:var(--bg);color:var(--text);min-he
 .slider-row input{flex:1;height:44px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:8px;outline:none;cursor:pointer}
 .slider-row input::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);cursor:pointer}
 .slider-row input::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent);border:none;cursor:pointer}
+.collapse-btn{width:100%;height:36px;background:var(--btn-bg);color:var(--text-muted);border:none;border-radius:var(--radius-btn);font-size:0.8rem;font-weight:600;cursor:pointer;transition:transform var(--transition-fast);text-align:center}
+.collapse-btn:active{transform:scale(0.96)}
+.collapse-content{display:none}
+.collapse-content.open{display:block}
 
 /* === SYSTEM INFO === */
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--card)}
@@ -96,9 +100,9 @@ body{font-family:var(--font-stack);background:var(--bg);color:var(--text);min-he
 
 <hr class="divider">
 
-<!-- SECTION: CALIBRATION -->
-<div class="section">
-<p class="section-title">CALIBRATION</p>
+<!-- SECTION: CALIBRATION (collapsible) -->
+<button class="collapse-btn" id="cal-toggle">&#9660; CALIBRATION</button>
+<div class="collapse-content" id="cal-content">
 <div class="slider-row">
 <label>Left Motor</label>
 <input type="range" id="coef-left" min="0" max="100" value="100">
@@ -201,6 +205,13 @@ if(ws&&ws.readyState===1)ws.send(JSON.stringify({t:"coef",d:{left:parseInt(coefL
 }
 coefLeftSlider.oninput=function(){coefLeftVal.textContent=this.value+'%';sendCoef()};
 coefRightSlider.oninput=function(){coefRightVal.textContent=this.value+'%';sendCoef()};
+
+/* --- Calibration toggle --- */
+document.getElementById('cal-toggle').addEventListener('click',function(){
+var c=document.getElementById('cal-content');
+var open=c.classList.toggle('open');
+this.innerHTML=open?'&#9650; CALIBRATION':'&#9660; CALIBRATION';
+});
 
 /* --- D-pad hold-to-drive --- */
 var holdTimer=null,holdDir=null;
