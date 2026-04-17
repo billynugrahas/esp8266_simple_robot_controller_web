@@ -55,6 +55,10 @@ body{font-family:var(--font-stack);background:var(--bg);color:var(--text);min-he
 .slider-row input::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent);border:none;cursor:pointer}
 .collapse-btn{width:100%;height:36px;background:var(--btn-bg);color:var(--text-muted);border:none;border-radius:var(--radius-btn);font-size:0.8rem;font-weight:600;cursor:pointer;transition:transform var(--transition-fast);text-align:center}
 .collapse-btn:active{transform:scale(0.96)}
+.toggle-btn{width:100%;height:44px;border:none;border-radius:var(--radius-btn);font-size:0.85rem;font-weight:700;cursor:pointer;transition:transform var(--transition-fast),background var(--transition-normal);margin-top:0.75rem}
+.toggle-btn:active{transform:scale(0.96)}
+.toggle-btn.off{background:var(--btn-bg);color:var(--text)}
+.toggle-btn.on{background:var(--success);color:#fff}
 .collapse-content{display:none}
 .collapse-content.open{display:block}
 
@@ -96,6 +100,7 @@ body{font-family:var(--font-stack);background:var(--bg);color:var(--text);min-he
 <input type="range" id="speed-slider" min="0" max="100" value="75">
 <span id="speed-val">75%</span>
 </div>
+<button class="toggle-btn off" id="ext-btn">KICKER: OFF</button>
 </div>
 
 <hr class="divider">
@@ -227,7 +232,16 @@ dpadBtns[i].addEventListener('pointercancel',stopHold);
 
 /* --- E-stop --- */
 document.getElementById('estop-btn').addEventListener('pointerdown',function(e){
-e.preventDefault();sendMotor('stop');
+  e.preventDefault();sendMotor('stop');
+});
+
+/* --- External toggle (latch) --- */
+var extOn=false;
+document.getElementById('ext-btn').addEventListener('click',function(){
+  extOn=!extOn;
+  this.textContent=extOn?'KICKER: ON':'KICKER: OFF';
+  this.className='toggle-btn '+(extOn?'on':'off');
+  if(ws&&ws.readyState===1)ws.send(JSON.stringify({t:"ext",d:{on:extOn}}));
 });
 
 connectWS();

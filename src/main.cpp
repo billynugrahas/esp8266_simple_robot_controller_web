@@ -7,6 +7,8 @@ const char* WIFI_PASS = "Niagraha2014";
 RobotWebUI ui;
 L293D motors;
 
+const int EXTERNAL_PIN = D5;
+
 void onMotor(const MotorCmd& cmd) {
     motors.drive(cmd.direction, cmd.speed);
 }
@@ -15,6 +17,11 @@ void onCoef(const CoefCmd& cmd) {
     motors.setCoefficients(cmd.left, cmd.right);
     motors.saveCoefficients();
     Serial.printf("[Coef] left=%.2f right=%.2f\n", cmd.left, cmd.right);
+}
+
+void onExtern(const ExternCmd& cmd) {
+    analogWrite(EXTERNAL_PIN, cmd.on ? 100 : 0);
+    Serial.printf("[Extern] kicker %s\n", cmd.on ? "ON" : "OFF");
 }
 
 void setup() {
@@ -34,6 +41,7 @@ void setup() {
 
     ui.onMotorCommand(onMotor);
     ui.onCoefficientCommand(onCoef);
+    ui.onExternCommand(onExtern);
     ui.begin(WIFI_SSID, WIFI_PASS);
 }
 

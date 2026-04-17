@@ -13,6 +13,7 @@ namespace MsgType {
     constexpr const char* WIFI_SCAN = "wifi_scan";
     constexpr const char* ACK       = "ack";
     constexpr const char* COEF      = "coef";
+    constexpr const char* EXTERN    = "ext";
 }
 
 // Typed command structs for callbacks (D-03)
@@ -30,6 +31,10 @@ struct WiFiCmd {
 struct CoefCmd {
     float left;        // 0.0 - 1.0
     float right;       // 0.0 - 1.0
+};
+
+struct ExternCmd {
+    bool on;           // true = enable, false = disable
 };
 
 // WSProtocol class -- manages a pre-allocated JsonDocument for zero per-message heap (CORE-03)

@@ -126,6 +126,10 @@ void RobotWebUI::onCoefficientCommand(void (*cb)(const CoefCmd&)) {
     _coefCallback = cb;
 }
 
+void RobotWebUI::onExternCommand(void (*cb)(const ExternCmd&)) {
+    _externCallback = cb;
+}
+
 // Internal handlers
 
 void RobotWebUI::handleWSMessage(const char* data, size_t len) {
@@ -174,6 +178,13 @@ void RobotWebUI::handleWSMessage(const char* data, size_t len) {
             cmd.left = doc["d"]["left"] | 1.0f;
             cmd.right = doc["d"]["right"] | 1.0f;
             _coefCallback(cmd);
+        }
+    } else if (strcmp(type, MsgType::EXTERN) == 0) {
+        if (_externCallback) {
+            ExternCmd cmd;
+            JsonDocument& doc = _protocol.document();
+            cmd.on = doc["d"]["on"] | false;
+            _externCallback(cmd);
         }
     }
     // Unknown types ignored silently

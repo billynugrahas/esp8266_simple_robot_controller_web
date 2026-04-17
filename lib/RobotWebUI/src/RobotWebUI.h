@@ -23,6 +23,7 @@ public:
     void onMotorCommand(void (*cb)(const MotorCmd&));
     void onWiFiCommand(void (*cb)(const WiFiCmd&));
     void onCoefficientCommand(void (*cb)(const CoefCmd&));
+    void onExternCommand(void (*cb)(const ExternCmd&));
 
 private:
     ITransport* _transport;
@@ -33,6 +34,7 @@ private:
     void (*_motorCallback)(const MotorCmd&) = nullptr;
     void (*_wifiCallback)(const WiFiCmd&) = nullptr;
     void (*_coefCallback)(const CoefCmd&) = nullptr;
+    void (*_externCallback)(const ExternCmd&) = nullptr;
 
     // System info push timer
     unsigned long _lastSystemPush = 0;
