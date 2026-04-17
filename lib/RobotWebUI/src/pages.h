@@ -133,6 +133,7 @@ ws=new WebSocket('ws://'+location.host+'/ws');
 ws.onopen=function(){
   rDelay=1000;
   updateConnection(true);
+  sendCoef();
 };
 ws.onclose=function(){
   updateConnection(false);
@@ -191,7 +192,11 @@ var coefLeftSlider=document.getElementById('coef-left');
 var coefLeftVal=document.getElementById('coef-left-val');
 var coefRightSlider=document.getElementById('coef-right');
 var coefRightVal=document.getElementById('coef-right-val');
+if(localStorage.getItem('coef-left')){var cl=localStorage.getItem('coef-left');coefLeftSlider.value=cl;coefLeftVal.textContent=cl+'%';}
+if(localStorage.getItem('coef-right')){var cr=localStorage.getItem('coef-right');coefRightSlider.value=cr;coefRightVal.textContent=cr+'%';}
 function sendCoef(){
+localStorage.setItem('coef-left',coefLeftSlider.value);
+localStorage.setItem('coef-right',coefRightSlider.value);
 if(ws&&ws.readyState===1)ws.send(JSON.stringify({t:"coef",d:{left:parseInt(coefLeftSlider.value)/100,right:parseInt(coefRightSlider.value)/100}}));
 }
 coefLeftSlider.oninput=function(){coefLeftVal.textContent=this.value+'%';sendCoef()};

@@ -1,4 +1,11 @@
 #include "L293D.h"
+#include <EEPROM.h>
+
+#define EEPROM_SIZE     128
+#define COEF_MAGIC      0xB6
+#define COEF_ADDR_MAGIC 97
+#define COEF_ADDR_LEFT  98
+#define COEF_ADDR_RIGHT 102
 
 L293D::L293D()
     : _leftCoef(1.0f), _rightCoef(1.0f), _begun(false) {
@@ -21,6 +28,34 @@ void L293D::begin(L293DConfig config) {
 void L293D::setCoefficients(float left, float right) {
     _leftCoef = left;
     _rightCoef = right;
+}
+
+void L293D::saveCoefficients() {
+    EEPROM.begin(EEPROM_SIZE);
+    EEPROM.write(COEF_ADDR_MAGIC, COEF_MAGIC);
+    EEPROM.put(COEF_ADDR_LEFT, _leftCoef);
+    EEPROM.put(COEF_ADDR_RIGHT, _rightCoef);
+    EEPROM.commit();
+    EEPROM.end();
+    Serial.printf("[L293D] Coefficients saved: left=%.2f right=%.2f\n", _leftCoef, _rightCoef);
+}
+
+bool L293D::loadCoefficients() {
+    EEPROM.begin(EEPROM_SIZE);
+    if (EEPROM.read(COEF_ADDR_MAGIC) != COEF_MAGIC) {
+        EEPROM.end();
+        return false;
+    }
+    EEPROM.get(COEF_ADDR_LEFT, _leftCoef);
+    EEPROM.get(COEF_ADDR_RIGHT, _rightCoef);
+    EEPROM.end();
+    if (_leftCoef < 0.0f || _leftCoef > 1.0f || _rightCoef < 0.0f || _rightCoef > 1.0f) {
+        _leftCoef = 1.0f;
+        _rightCoef = 1.0f;
+        return false;
+    }
+    Serial.printf("[L293D] Coefficients loaded: left=%.2f right=%.2f\n", _leftCoef, _rightCoef);
+    return true;
 }
 
 void L293D::setLeftSpeed(int speed) {

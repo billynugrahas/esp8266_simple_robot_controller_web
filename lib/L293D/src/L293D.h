@@ -16,6 +16,8 @@ public:
     void begin(L293DConfig config);
 
     void setCoefficients(float left, float right);
+    void saveCoefficients();
+    bool loadCoefficients();
 
     void setLeftSpeed(int speed);
     void setRightSpeed(int speed);

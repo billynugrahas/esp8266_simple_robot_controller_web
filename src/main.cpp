@@ -13,6 +13,7 @@ void onMotor(const MotorCmd& cmd) {
 
 void onCoef(const CoefCmd& cmd) {
     motors.setCoefficients(cmd.left, cmd.right);
+    motors.saveCoefficients();
     Serial.printf("[Coef] left=%.2f right=%.2f\n", cmd.left, cmd.right);
 }
 
@@ -27,7 +28,9 @@ void setup() {
         .rightDir  = D3,  // Motor B direction (GPIO 0)
         .rightPWM  = D1   // Motor B speed     (GPIO 5)
     });
-    motors.setCoefficients(1.0, 1.0);
+    if (!motors.loadCoefficients()) {
+        motors.setCoefficients(1.0, 1.0);
+    }
 
     ui.onMotorCommand(onMotor);
     ui.onCoefficientCommand(onCoef);
